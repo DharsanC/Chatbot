@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant - Chat</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        indigo: {
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Marked.js for Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Embedding some critical styles here to ensure zero-delay UI rendering */
+        body { visibility: hidden; } /* Prevent FOUC */
+        body.ready { visibility: visible; }
+    </style>
+</head>
+<body class="bg-[var(--bg-deep)] text-[var(--text-primary)] transition-colors duration-300">
+    <div id="app" class="flex h-full w-full overflow-hidden">
+        <!-- Mobile Sidebar Backdrop -->
+        <div id="sidebar-backdrop" class="fixed inset-0 bg-black/50 z-30 lg:hidden backdrop-blur-sm transition-opacity hidden"></div>
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar flex flex-col w-72 h-full z-40 fixed lg:relative transition-transform duration-300 -translate-x-full lg:translate-x-0">
+            <div class="p-4 flex flex-col gap-2 h-full">
+                <div>
+                    <div class="flex items-center justify-around w-full h-[55px] gap-2 font-bold text-xl">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="bot" class="text-indigo-600 dark:text-indigo-400"></i>
+                            <span>AI Assistant</span>
+                        </div>
+                        <div class="flex items-center">
+                            <button id="theme-toggle" class="p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors border border-transparent hover:border-[var(--border-color)]">
+                                <i data-lucide="sun" id="theme-sun-icon" class="text-slate-300"></i>
+                                <i data-lucide="moon" id="theme-moon-icon" class="text-slate-700 hidden"></i>
+                            </button>
+                            <button id="close-sidebar" class="lg:hidden p-2 ml-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-xl transition-colors">
+                                <i data-lucide="x" class="text-[var(--text-primary)]"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="new-chat-btn" class="flex items-center justify-center gap-2 w-full h-[40px] rounded-xl border border-[var(--border-color)] hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-md font-medium">
+                    <i data-lucide="plus" size="18"></i>
+                    New Chat
+                </button>
+
+                <div id="chats-list" class="flex-1 overflow-y-auto space-y-2 mt-4">
+                    <!-- Chats will be rendered here -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="flex-1 flex flex-col justify-between pt-0 h-full chat-container relative">
+            <!-- Mobile Header -->
+            <header class="lg:hidden min-h-[60px] flex items-center justify-around p-4 border-b border-[var(--border-color)] bg-[var(--bg-sidebar)]/80 backdrop-blur-md sticky top-0 z-20">
+                <div class="flex items-center gap-2 font-bold">
+                    <i data-lucide="bot" size="24" class="text-indigo-600 dark:text-indigo-400"></i>
+                    <span class="text-xl">AI Assistant</span>
+                </div>
+                <button id="open-sidebar" class="p-2.5 rounded-xl bg-none border-none hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95 flex items-center justify-center cursor-pointer">
+                    <i data-lucide="menu" size="28"></i>
+                </button>
+            </header>
+
+            <!-- Messages Container -->
+            <div id="messages-container" class="flex-1 overflow-y-auto px-4 md:px-8 scroll-smooth flex flex-col items-center justify-center pt-8 pb-6 md:pb-8">
+                <!-- Messages or Initial View will be injected here -->
+            </div>
+
+            <!-- Input Area -->
+            <div class="bg-transparent w-full flex justify-center relative z-10 before:absolute before:inset-0 before:bg-gradient-to-t before:from-[var(--bg-deep)] before:via-[var(--bg-deep)] before:to-transparent before:pointer-events-none px-6 pb-6 pt-6 md:px-10 md:pb-10">
+                <form id="chat-form" class="w-[80%] relative group z-10 max-w-4xl">
+                    <div class="flex items-center gap-4 bg-[var(--bg-sidebar)] backdrop-blur-xl border border-[var(--border-color)] rounded-2xl p-2 h-[60px] shadow-sm transition-all focus-within:border-indigo-500/80 focus-within:ring-4 focus-within:ring-indigo-500/80">
+                        <textarea id="chat-textarea" rows="1" class="flex-1 bg-transparent border-none text-[var(--text-primary)] placeholder-[var(--text-secondary)] resize-none overflow-y-auto scrollbar-none text-base md:text-lg outline-none transition-all pl-[1rem] pr-4 py-2" placeholder="Chat With AI Assistant..."></textarea>
+                        <button type="submit" id="send-btn" class="bg-blue-600 hover:bg-blue-700 text-white p-2.5 h-[50px] w-[50px] rounded-xl flex items-center justify-center disabled:opacity-50 transition-colors shrink-0">
+                            <i data-lucide="send" size="20"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
