@@ -1,5 +1,5 @@
 // --- CONFIGURATION ---
-const API_KEY = "AIzaSyDFa4gN9pj1J8-tPjwtKYt26e2peMwpZJU";
+const API_KEY = "AIzaSyDYFgP0Lkrk4Tw9f-PPk3kO4VAyT-g7ddQ";
 const MODEL_NAME = "gemini-2.5-flash"; // Confirmed working model
 // Use v1 for better stability in generic environments
 const API_URL = `https://generativelanguage.googleapis.com/v1/models/${MODEL_NAME}:generateContent?key=${API_KEY}`;
